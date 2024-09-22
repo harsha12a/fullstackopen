@@ -2,7 +2,7 @@ function Part(props) {
     let parts=props.parts
   return (
     <div>
-        <p>{parts.part} {parts.exercises}</p>
+        <p>{parts.name} {parts.exercises}</p>
     </div>
   )
 }
