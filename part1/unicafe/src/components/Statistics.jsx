@@ -1,10 +1,10 @@
 import React from "react";
 
-function Statistics({x}) {
-    let {good, neutral, bad} = x
-    
-  const getPos = () => good/(good+bad+neutral)*100
-  const getAvg = () => (good-bad)/(good+bad+neutral)
+function Statistics({ x }) {
+  let { good, neutral, bad } = x;
+
+  const getPos = () => (good / (good + bad + neutral)) * 100;
+  const getAvg = () => (good - bad) / (good + bad + neutral);
   return (
     <div>
       <p>good {good}</p>
