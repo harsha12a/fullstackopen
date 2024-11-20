@@ -7,14 +7,16 @@ function Statistics({ x }) {
   const getAvg = () => (good - bad) / (good + bad + neutral);
   const getSum = () => good + neutral + bad;
   return (
-    <div>
-      <StatisticLine value={good} text="good" />
-      <StatisticLine value={neutral} text="neutral" />
-      <StatisticLine value={bad} text="bad" />
-      <StatisticLine value={getSum()} text="all" />
-      <StatisticLine value={getAvg()} text="average" />
-      <StatisticLine value={getPos()} text="positive" />
-    </div>
+    <table>
+      <tbody>
+        <StatisticLine value={good} text="good" />
+        <StatisticLine value={neutral} text="neutral" />
+        <StatisticLine value={bad} text="bad" />
+        <StatisticLine value={getSum()} text="all" />
+        <StatisticLine value={getAvg()} text="average" />
+        <StatisticLine value={getPos()} text="positive" />
+      </tbody>
+    </table>
   );
 }
 

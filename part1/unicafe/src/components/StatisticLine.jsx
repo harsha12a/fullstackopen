@@ -2,9 +2,13 @@ import React from "react";
 
 function StatisticLine({ value, text }) {
   return (
-    <div>
-      {text} {value}
-    </div>
+    <tr>
+      <td>{text}</td>
+      <td>
+        {value}
+        {text === "positive" ? "%" : ""}
+      </td>
+    </tr>
   );
 }
 
