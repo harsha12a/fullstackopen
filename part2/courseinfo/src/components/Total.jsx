@@ -1,8 +1,7 @@
 import React from "react";
 
 function Total({ parts }) {
-  let total = 0;
-  parts.forEach((num) => (total += num.exercises));
+  let total = parts.reduce((acc, part) => acc + part.exercises, 0)
   return <strong>total of {total} exercises</strong>;
 }
 
