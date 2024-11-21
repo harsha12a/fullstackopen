@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Header({name}) {
+function Header() {
   return (
-    <h1>{name}</h1>
+    <h1>Web development curriculum</h1>
   )
 }
 

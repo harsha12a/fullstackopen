@@ -6,7 +6,7 @@ import Total from './Total'
 function Course({course}) {
   return (
     <div>
-        <Header name={course.name}/>
+        <h2>{course.name}</h2>
         <Content parts={course.parts}/>
         <Total parts={course.parts}/>
     </div>
