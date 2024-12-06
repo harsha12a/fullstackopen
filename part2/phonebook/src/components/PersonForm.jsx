@@ -1,16 +1,17 @@
-import axios from 'axios';
 import React from 'react'
-
-function PersonForm({setPersons, setName, changes, changeNo, newName, newNumber}) {
+import personService from '../services/persons';
+function PersonForm({persons, setPersons, setName, changes, changeNo, newName, newNumber}) {
   const newEntry = async (obj) => {
     obj.preventDefault();
     let newObj = {
       name: newName,
       number: newNumber
     }
-    let request = await axios.post('http://localhost:3001/persons', newObj)
-    .then(response => setPersons((prev) => [...prev, response.data]))
-    .catch((err) => console.log(err))
+    setName(newObj)
+    !persons.filter(per => per.name === newObj.name).length > 0 &&
+    personService.create(newObj)
+      .then()
+      .catch((err) => console.log(err))
   }
   return (
     <form onSubmit={newEntry}>
