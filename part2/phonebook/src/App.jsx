@@ -2,21 +2,22 @@ import { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import axios from "axios";
 import personService from "./services/persons";
 const App = () => {
   useEffect(() => {
-    personService.getAll()
+    personService
+      .getAll()
       .then((response) => {
         setPersons(response);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
   }, []);
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
   const setName = (obj) => {
+    obj.preventDefault();
     let newObj = {
       name: newName,
       number: newNumber,
@@ -24,11 +25,15 @@ const App = () => {
     let user = persons.filter((person) => person.name === newObj.name);
     if (user.length > 0)
       return alert(`${newName} is already added to phonebook`);
-    else {
-      setPersons(persons.concat(newObj));
-      setNewName("");
-      setNewNumber("");
-    }
+
+    personService
+      .create(newObj)
+      .then((response) => {
+        setPersons(persons.concat(response));
+        setNewName("");
+        setNewNumber("");
+      })
+      .catch((err) => console.log(err));
   };
   let personFilter =
     filter === ""
@@ -44,8 +49,6 @@ const App = () => {
 
       <h2>add a new</h2>
       <PersonForm
-        persons={persons}
-        setPersons={setPersons}
         setName={setName}
         newName={newName}
         changes={changes}
@@ -54,7 +57,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons personFilter={personFilter} />
+      <Persons personFilter={personFilter} setPersons={setPersons} />
     </div>
   );
 };
