@@ -22,18 +22,34 @@ const App = () => {
       name: newName,
       number: newNumber,
     };
-    let user = persons.filter((person) => person.name === newObj.name);
-    if (user.length > 0)
-      return alert(`${newName} is already added to phonebook`);
-
-    personService
-      .create(newObj)
-      .then((response) => {
-        setPersons(persons.concat(response));
+    let user = persons.find((person) => person.name === newObj.name);
+    if (user) {
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        const newUser = { ...user, number: newNumber };
+        personService.update(newUser.id, newUser).then((response) => {
+          setPersons(
+            persons.map((person) =>
+              person.id === newUser.id ? response : person
+            )
+          );
+        });
         setNewName("");
         setNewNumber("");
-      })
-      .catch((err) => console.log(err));
+      }
+    } else {
+      personService
+        .create(newObj)
+        .then((response) => {
+          setPersons(persons.concat(response));
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch((err) => console.log(err));
+    }
   };
   let personFilter =
     filter === ""
