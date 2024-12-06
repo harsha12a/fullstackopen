@@ -1,8 +1,19 @@
+import axios from 'axios';
 import React from 'react'
 
-function PersonForm({setName, changes, changeNo, newName, newNumber}) {
+function PersonForm({setPersons, setName, changes, changeNo, newName, newNumber}) {
+  const newEntry = async (obj) => {
+    obj.preventDefault();
+    let newObj = {
+      name: newName,
+      number: newNumber
+    }
+    let request = await axios.post('http://localhost:3001/persons', newObj)
+    .then(response => setPersons((prev) => [...prev, response.data]))
+    .catch((err) => console.log(err))
+  }
   return (
-    <form onSubmit={setName}>
+    <form onSubmit={newEntry}>
         <div>
           name: <input value={newName} onChange={changes} />
         </div>
