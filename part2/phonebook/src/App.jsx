@@ -18,6 +18,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
   const [message, setMessage] = useState('');
+  const [isErr, setErr] = useState(false);
   const setName = (obj) => {
     obj.preventDefault();
     let newObj = {
@@ -39,6 +40,7 @@ const App = () => {
             )
           );
         });
+        setErr(false)
         setMessage(`Updated ${newName}'s number`)
         setTimeout(()=>{
           setMessage(null)
@@ -53,6 +55,7 @@ const App = () => {
           setPersons(persons.concat(response));
           setNewName("");
           setNewNumber("");
+          setErr(false)
           setMessage(`Added ${newName}`)
           setTimeout(()=>{
             setMessage(null)
@@ -72,7 +75,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       {
-        message && <Notification message={message} />
+        message && <Notification message={message} isErr={isErr} />
       }
       <Filter filter={filter} filters={filters} />
 
@@ -86,7 +89,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons personFilter={personFilter} setPersons={setPersons} />
+      <Persons personFilter={personFilter} setPersons={setPersons} setMessage={setMessage} setErr={setErr} />
     </div>
   );
 };

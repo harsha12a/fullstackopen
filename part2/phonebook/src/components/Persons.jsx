@@ -1,6 +1,6 @@
 import React from "react";
 import personService from "../services/persons";
-function Persons({ personFilter, setPersons }) {
+function Persons({ personFilter, setPersons, setMessage, setErr }) {
   const delPerson = (event) => {
     if (window.confirm(`Delete ${event.name}?`)) {
       personService
@@ -8,7 +8,14 @@ function Persons({ personFilter, setPersons }) {
         .then(() => {
           setPersons((prev) => prev.filter((p) => p.id !== event.id));
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setErr(true);
+          setMessage(`Information of ${event.name} has already been removed from server`);
+          setTimeout(() => {
+            setErr(false);
+            setMessage(null);
+          }, 5000);
+        });
     }
   };
   return (
