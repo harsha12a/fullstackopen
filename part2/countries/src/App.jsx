@@ -11,7 +11,9 @@ function App() {
       })
       .catch((err) => console.log(err));
   }, []);
-
+  let handleClick = (country) => {
+    setFilter(country.name.common);
+  }
   let filteredCountries = countries.filter((country) => {
     return country.name.common.toLowerCase().includes(filter.toLowerCase());
   });
@@ -19,7 +21,7 @@ function App() {
   return (
     <div>
       <form action="">
-        <label htmlFor="">find countries</label>
+        <label>find countries</label>
         <input type="text" onChange={handleChange} />
       </form>
       {filter === "" ? (
@@ -47,7 +49,10 @@ function App() {
         </div>
       ) : (
         filteredCountries.map((country) => {
-          return <div key={country.name.common}>{country.name.common}</div>;
+          return <div key={country.name.common}>
+            <span>{country.name.common}</span>
+            <button onClick={() => handleClick(country)}>show</button>
+          </div>;
         })
       )}
     </div>
