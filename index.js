@@ -52,6 +52,19 @@ app.delete("/api/persons/:id", (req, res) => {
   res.status(204).end();
 });
 
+const getRandom = () => Math.floor(Math.random() * 10000)
+
+app.post('/api/persons', (req, res) => {
+  const body = req.body
+  const user = {
+    id: getRandom(),
+    name: body.name,
+    number: body.number
+  }
+  users = users.concat(user)
+  res.json(user)
+})
+
 app.get("/api/persons", (req, res) => {
   res.json(users);
 });
