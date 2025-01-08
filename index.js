@@ -24,6 +24,17 @@ let users = [
     }
 ]
 
+app.get('/', (req,res) => {
+    res.send('<h1>Welcome to Phonebook Backend</h1>')
+})
+
+app.get('/info', (req,res) => {
+    res.send(`
+      Phonebook has info for ${users.length} people
+      <br/>
+      ${new Date()}`)
+})
+
 app.get('/api/persons', (req, res) => {
     res.json(users)
 })
