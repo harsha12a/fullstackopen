@@ -56,6 +56,12 @@ const getRandom = () => Math.floor(Math.random() * 10000)
 
 app.post('/api/persons', (req, res) => {
   const body = req.body
+  if(!body.name)
+    return res.status(400).json({error: 'name is missing'})
+  if(!body.number)
+    return res.status(400).json({error: 'number is missing'})
+  if(users.find(user => user.name === body.name))
+    return res.status(400).json({error: 'name must be unique'})
   const user = {
     id: getRandom(),
     name: body.name,
