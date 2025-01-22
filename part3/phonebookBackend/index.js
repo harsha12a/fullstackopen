@@ -49,15 +49,13 @@ app.post('/api/persons', (req, res) => {
     return res.status(400).json({error: 'name is missing'})
   if(!body.number)
     return res.status(400).json({error: 'number is missing'})
-  if(users.find(user => user.name === body.name))
-    return res.status(400).json({error: 'name must be unique'})
-  const user = {
-    id: getRandom(),
+  const user = new Person({
     name: body.name,
     number: body.number
-  }
-  users = users.concat(user)
-  res.json(user)
+  })
+  user.save().then(savedUser => {
+    res.json(savedUser)
+  })
 })
 
 app.get("/api/persons", (req, res) => {
