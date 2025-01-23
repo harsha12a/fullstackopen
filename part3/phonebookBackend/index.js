@@ -69,6 +69,17 @@ app.post('/api/persons', (req, res) => {
   })
 })
 
+app.put('/api/persons/:id', (req, res, next) => {
+  const body = req.body
+  const user = {
+    name: body.name,
+    number: body.number
+  }
+  Person.findByIdAndUpdate(req.params.id, user, {new: true})
+    .then(updatedUser => res.json(updatedUser))
+    .catch(err => next(err))
+})
+
 app.get("/api/persons", (req, res) => {
   Person.find({}).then((persons) => {
     res.json(persons);
