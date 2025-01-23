@@ -5,6 +5,17 @@ require("dotenv").config();
 const Person = require('./models/person');
 const app = express();
 
+const errorHandle = (err, req, res, next) => {
+  console.log(err.message)
+  if(err.name === 'CastError'){
+    res.status(400).send({error: 'malformatted id'})
+  }
+  next(err)
+}
+
+const unknownEnd = (req, res) => {
+  res.status(404).send({error: 'unknown endpoint'})
+}
 
 app.use(express.json());
 app.use(cors())
@@ -35,10 +46,10 @@ app.get("/api/persons/:id", (req, res) => {
   }
 });
 
-app.delete("/api/persons/:id", (req, res) => {
+app.delete("/api/persons/:id", (req, res, next) => {
   Person.findByIdAndDelete(req.params.id)
     .then(result => res.status(204).end())
-    .catch(err => console.log("malformatted id"))
+    .catch(err => next(err))
 });
 
 const getRandom = () => Math.floor(Math.random() * 10000)
@@ -63,6 +74,8 @@ app.get("/api/persons", (req, res) => {
     res.json(persons);
   });
 });
+app.use(errorHandle)
+app.use(unknownEnd)
 
 const PORT = process.env.PORT || 3001;
 
