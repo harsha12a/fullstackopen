@@ -36,9 +36,9 @@ app.get("/api/persons/:id", (req, res) => {
 });
 
 app.delete("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id);
-  users = users.filter((user) => user.id !== id);
-  res.status(204).end();
+  Person.findByIdAndDelete(req.params.id)
+    .then(result => res.status(204).end())
+    .catch(err => console.log("malformatted id"))
 });
 
 const getRandom = () => Math.floor(Math.random() * 10000)
