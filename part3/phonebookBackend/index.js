@@ -10,6 +10,9 @@ const errorHandle = (err, req, res, next) => {
   if (err.name === "CastError") {
     res.status(400).send({ error: "malformatted id" });
   }
+  if (err.name === "ValidationError") {
+    res.status(400).send({ error: err.message });
+  }
   next(err);
 };
 
@@ -36,7 +39,7 @@ app.get("/info", (req, res) => {
       ${new Date()}`);
 });
 
-app.get("/api/persons/:id", (req, res) => {
+app.get("/api/persons/:id", (req, res, next) => {
   Person.findById(req.params.id)
     .then((person) => (person ? res.json(person) : res.status(404).end()))
     .catch((err) => next(err));
@@ -50,7 +53,7 @@ app.delete("/api/persons/:id", (req, res, next) => {
 
 const getRandom = () => Math.floor(Math.random() * 10000);
 
-app.post("/api/persons", (req, res) => {
+app.post("/api/persons", (req, res, next) => {
   const body = req.body;
   if (!body.name) return res.status(400).json({ error: "name is missing" });
   if (!body.number) return res.status(400).json({ error: "number is missing" });
@@ -58,9 +61,11 @@ app.post("/api/persons", (req, res) => {
     name: body.name,
     number: body.number,
   });
-  user.save().then((savedUser) => {
-    res.json(savedUser);
-  });
+  user.save()
+    .then((savedUser) => {
+      res.json(savedUser);
+    })
+    .catch((err) => next(err))
 });
 
 app.put("/api/persons/:id", (req, res, next) => {
@@ -79,6 +84,7 @@ app.get("/api/persons", (req, res) => {
     res.json(persons);
   });
 });
+
 app.use(errorHandle);
 app.use(unknownEnd);
 

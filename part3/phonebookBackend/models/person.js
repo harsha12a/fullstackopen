@@ -9,7 +9,11 @@ mongoose.connect(url)
     .catch((err) => console.log("Error connecting to mongo",err.message))
 
 let personSchema = new mongoose.Schema({
-    name: String,
+    name: {
+        type: String,
+        minLength: 3,
+        required: true
+    },
     number: String
 })
 
