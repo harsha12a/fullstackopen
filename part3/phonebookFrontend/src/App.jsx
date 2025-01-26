@@ -39,14 +39,21 @@ const App = () => {
               person.id === newUser.id ? response : person
             )
           );
-        });
-        setErr(false)
-        setMessage(`Updated ${newName}'s number`)
-        setTimeout(()=>{
-          setMessage(null)
-        },5000)
-        setNewName("");
-        setNewNumber("");
+          setErr(false)
+          setMessage(`Updated ${newName}'s number`)
+          setTimeout(()=>{
+            setMessage(null)
+          },5000)
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch((err) => {
+          setErr(true)
+          setMessage(err.response.data.error)
+          setTimeout(()=>{
+            setMessage(null)
+          },5000)
+        })
       }
     } else {
       personService
