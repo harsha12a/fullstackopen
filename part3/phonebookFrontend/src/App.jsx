@@ -61,7 +61,13 @@ const App = () => {
             setMessage(null)
           },5000)
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setErr(true)
+          setMessage(err.response.data.error)
+          setTimeout(()=>{
+            setMessage(null)
+          },5000)
+        });
     }
   };
   let personFilter =
